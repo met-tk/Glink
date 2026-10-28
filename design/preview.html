@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glink 纯色圆角图标设计蓝图与规范</title>
+  <style>
+    :root {
+      --bg-dark: #151413;
+      --card-dark: #1F1D1A;
+      --card-border: #332F2A;
+      --accent-orange: #E8956B;
+      --text-main: #EDEDED;
+      --text-sub: #9E968D;
+      --paper-bg: #F5F2EB;
+      --midnight-bg: #111922;
+      --midnight-accent: #8BCBDB;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      padding: 48px 32px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-sub);
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 40px 0 20px 0;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--accent-orange);
+      border-radius: 2px;
+    }
+
+    /* 网格展示卡片 */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .icon-card {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .icon-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-orange);
+    }
+
+    .icon-wrapper {
+      width: 140px;
+      height: 140px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-wrapper img, .icon-wrapper svg {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-sub);
+      text-align: center;
+    }
+
+    /* 尺寸对比梯队 */
+    .scale-strip {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .scale-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .scale-label {
+      font-size: 12px;
+      color: var(--text-sub);
+      font-family: monospace;
+    }
+
+    /* 设计理念解析表 */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+      background: var(--card-dark);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+
+    .spec-table th, .spec-table td {
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 14px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .spec-table th {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    .spec-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: monospace;
+      background: rgba(232, 149, 107, 0.15);
+      color: var(--accent-orange);
+    }
+
+    /* 源码展示区 */
+    .code-box {
+      background: #0D0D0D;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 13px;
+      color: #D4D4D4;
+      overflow-x: auto;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Glink 灵感库 纯色圆角图标设计蓝图</h1>
+      <p class="subtitle">设计哲学：你的灵感，随光沉淀 | 纯色、克制、全圆角空间收拢</p>
+    </header>
+
+    <div class="section-title">核心形态与主题变体</div>
+    <div class="grid-cards">
+      <!-- 暮光暗色版 -->
+      <div class="icon-card">
+        <div class="icon-wrapper">
+          <img src="glink-icon-dark-512.png" alt="暮光暗色版">
+        </div>
+        <div class="card-title">暮光暗色版 (默认)</div>
+        <div class="card-desc">底色 #151413 | 纯色符号 #E8956B<br>圆角 112px 容器收拢</div>
+      </div>
+
+      <!-- 暮光强调色版 -->
+      <div class="icon-card">
+        <div class="icon-wrapper">
+          <img src="glink-icon-accent-512.png" alt="暮光强调色版">
+        </div>
+        <div class="card-title">暮光反色版 (实体徽标)</div>
+        <div class="card-desc">底板 #E8956B | 纯色符号 #151413<br>极高识别度与饱满视觉</div>
+      </div>
+
+      <!-- 晨纸浅色版 -->
+      <div class="icon-card" style="background: #EAE6DD;">
+        <div class="icon-wrapper">
+          <img src="glink-icon-paper-512.png" alt="晨纸浅色版">
+        </div>
+        <div class="card-title" style="color: #2D2823;">晨纸明色版</div>
+        <div class="card-desc" style="color: #6E675F;">底色 #F5F2EB | 纯色符号 #9C3F2A<br>温润纸质质感</div>
+      </div>
+
+      <!-- 独立透明纯色符号 -->
+      <div class="icon-card">
+        <div class="icon-wrapper">
+          <img src="glink-symbol-accent-512.png" alt="透明纯色符号">
+        </div>
+        <div class="card-title">极简纯色符号 (无外框)</div>
+        <div class="card-desc">自适应 currentColor<br>用于标题栏、工具条与按钮</div>
+      </div>
+    </div>
+
+    <div class="section-title">多尺度响应与视觉清晰度梯队</div>
+    <div class="scale-strip">
+      <div class="scale-item">
+        <div style="width: 128px; height: 128px;">
+          <img src="glink-icon-dark-512.png" style="width: 100%; height: 100%;" alt="128px">
+        </div>
+        <span class="scale-label">128px 应用图标</span>
+      </div>
+      <div class="scale-item">
+        <div style="width: 64px; height: 64px;">
+          <img src="glink-icon-dark-512.png" style="width: 100%; height: 100%;" alt="64px">
+        </div>
+        <span class="scale-label">64px 任务栏/Dock</span>
+      </div>
+      <div class="scale-item">
+        <div style="width: 48px; height: 48px;">
+          <img src="glink-icon-dark-512.png" style="width: 100%; height: 100%;" alt="48px">
+        </div>
+        <span class="scale-label">48px 桌面小图</span>
+      </div>
+      <div class="scale-item">
+        <div style="width: 32px; height: 32px;">
+          <img src="glink-icon-dark-512.png" style="width: 100%; height: 100%;" alt="32px">
+        </div>
+        <span class="scale-label">32px 窗口标头</span>
+      </div>
+      <div class="scale-item">
+        <div style="width: 16px; height: 16px;">
+          <img src="glink-icon-dark-512.png" style="width: 100%; height: 100%;" alt="16px">
+        </div>
+        <span class="scale-label">16px 系统托盘</span>
+      </div>
+    </div>
+
+    <div class="section-title">设计几何构架与理念映射</div>
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>构图元素</th>
+          <th>几何参数</th>
+          <th>核心设计理念与业务映射</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>外圆角容器</strong></td>
+          <td><span class="tag">448 x 448 (rx: 112px)</span></td>
+          <td>采用 25% 连续平滑大圆角（Squircle），呼应 WinUI 3 现代窗口语言与卡片“沉浸收拢”哲学。</td>
+        </tr>
+        <tr>
+          <td><strong>字母 G 轨迹</strong></td>
+          <td><span class="tag">R=132px, 粗度: 46px</span></td>
+          <td>自右上角 322° 柔和起笔，全圆角逆时针环绕延伸，形成张弛有度的怀抱姿态，象征 Glink 库的开放接纳。</td>
+        </tr>
+        <tr>
+          <td><strong>内部悬停横梁</strong></td>
+          <td><span class="tag">X: 388 -> 316, Y: 256</span></td>
+          <td>圆角端头横梁向内平展延伸，与内部灵感核心产生引力呼应，表达“Link（连结）”意向。</td>
+        </tr>
+        <tr>
+          <td><strong>核心四芒灵光</strong></td>
+          <td><span class="tag">中心 (244, 256), 尺寸 48px</span></td>
+          <td>四芒向外舒展（内凹三次贝塞尔平滑微弧），对应<strong>文本、音频、图片、视频</strong>四大多模态资产汇聚，契合“随光沉淀”。</td>
+        </tr>
+        <tr>
+          <td><strong>呼吸感空间槽</strong></td>
+          <td><span class="tag">间距: 24px (4px模数)</span></td>
+          <td>四芒灵光右翼与横梁端头保留 24px 净空，保持克制距离，绝不粘连杂乱，小尺寸下依旧透气通透。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">标准纯色矢量 SVG 源码 (暗色圆角版)</div>
+    <div class="code-box">&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%"&gt;
+  &lt;!-- Glink 灵感库 纯色圆角图标 --&gt;
+  &lt;rect width="512" height="512" fill="none"/&gt;
+  &lt;!-- 容器背景: 暮光暖炭灰 #151413，平滑大圆角 112px --&gt;
+  &lt;rect x="32" y="32" width="448" height="448" rx="112" fill="#151413"/&gt;
+  
+  &lt;!-- 纯色主体: 暮光强调色 #E8956B --&gt;
+  &lt;g fill="#E8956B"&gt;
+    &lt;!-- 字母 G 主体轨迹 (圆角端头，粗壮有力) --&gt;
+    &lt;path d="M 358 174 A 132 132 0 1 0 388 256 L 316 256" 
+          fill="none" 
+          stroke="#E8956B" 
+          stroke-width="44" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/&gt;
+    
+    &lt;!-- 核心灵光 (Spark): 四芒微圆角曲线，象征四类灵感资产随光沉淀 --&gt;
+    &lt;path d="M 244 212 
+             C 244 238 230 256 200 256 
+             C 230 256 244 274 244 300 
+             C 244 274 258 256 288 256 
+             C 258 256 244 238 244 212 Z"/&gt;
+  &lt;/g&gt;
+&lt;/svg&gt;</div>
+  </div>
+
+</body>
+</html>

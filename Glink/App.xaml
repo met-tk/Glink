@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="Glink.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Glink"
+    RequestedTheme="Dark">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- ===== Theme Colors ===== -->
+            <Color x:Key="BgColor">#151413</Color>
+            <Color x:Key="SidebarColor">#1C1A18</Color>
+            <Color x:Key="CardColor">#25221F</Color>
+            <Color x:Key="BorderColor">#3B3631</Color>
+            <Color x:Key="BorderHoverColor">#8B7261</Color>
+            <Color x:Key="TextColor">#F3EDE5</Color>
+            <Color x:Key="SubTextColor">#B6AAA0</Color>
+            <Color x:Key="AccentColor">#E9AC83</Color>
+
+            <!-- ===== Brushes ===== -->
+            <SolidColorBrush x:Key="BgBrush" Color="{StaticResource BgColor}" />
+            <SolidColorBrush x:Key="SidebarBrush" Color="{StaticResource SidebarColor}" />
+            <SolidColorBrush x:Key="CardBrush" Color="{StaticResource CardColor}" />
+            <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
+            <SolidColorBrush x:Key="BorderHoverBrush" Color="{StaticResource BorderHoverColor}" />
+            <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}" />
+            <SolidColorBrush x:Key="SubTextBrush" Color="{StaticResource SubTextColor}" />
+            <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+
+            <SolidColorBrush x:Key="OnAccentBrush" Color="#292019" />
+            <SolidColorBrush x:Key="SelectionBrush" Color="#3C3027" />
+            <SolidColorBrush x:Key="WaveformBrush" Color="#827266" />
+            <!-- 派生色（ThemeService 按主题换算后原地刷新）：卡片悬停的表面提色、
+                 画布顶部一道主题色氛围光（自上而下渐隐，呼应"随光沉淀"）。 -->
+            <SolidColorBrush x:Key="CardHoverBrush" Color="#2A2622" />
+            <LinearGradientBrush x:Key="CanvasGlowBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="#1B1917" Offset="0" />
+                <GradientStop Color="#151413" Offset="1" />
+            </LinearGradientBrush>
+            <!-- 播放器（MediaTransportControls）：画面上的控制面板遵循影视惯例——
+                 深色半透明、跨主题稳定（同卡片时长徽章）；主题感由提亮后的强调色
+                 与边框色调传达（PlayerPanel/Border/Accent 由 ThemeService 按主题刷新）。 -->
+            <SolidColorBrush x:Key="PlayerPanelBrush" Color="#CC141414" />
+            <SolidColorBrush x:Key="PlayerPanelBorderBrush" Color="#59FFFFFF" />
+            <SolidColorBrush x:Key="PlayerAccentBrush" Color="#E9AC83" />
+            <SolidColorBrush x:Key="PlayerTextBrush" Color="#F2F2F2" />
+            <SolidColorBrush x:Key="PlayerTextDimBrush" Color="#B8B8B8" />
+            <SolidColorBrush x:Key="PlayerTrackBrush" Color="#59FFFFFF" />
+            <SolidColorBrush x:Key="PlayerFlyoutBrush" Color="#F0202020" />
+            <!-- Keep resource identities stable while ThemeService updates their colors. -->
+            <StaticResource x:Key="AccentFillColorDefaultBrush" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="AccentFillColorSecondaryBrush" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="AccentFillColorTertiaryBrush" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="TextOnAccentFillColorPrimaryBrush" ResourceKey="OnAccentBrush" />
+            <StaticResource x:Key="TextOnAccentFillColorSecondaryBrush" ResourceKey="OnAccentBrush" />
+            <StaticResource x:Key="TextControlBorderBrushFocused" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="TextControlBackgroundFocused" ResourceKey="CardBrush" />
+            <StaticResource x:Key="TextControlForegroundFocused" ResourceKey="TextBrush" />
+            <StaticResource x:Key="TextControlSelectionHighlightColor" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="RadioButtonOuterEllipseCheckedFill" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="RadioButtonOuterEllipseCheckedFillPointerOver" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="RadioButtonOuterEllipseCheckedFillPressed" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="RadioButtonOuterEllipseCheckedStroke" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="RadioButtonOuterEllipseCheckedStrokePointerOver" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="RadioButtonOuterEllipseCheckedStrokePressed" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="RadioButtonCheckGlyphFill" ResourceKey="OnAccentBrush" />
+            <StaticResource x:Key="RadioButtonCheckGlyphFillPointerOver" ResourceKey="OnAccentBrush" />
+            <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" />
+            <StaticResource x:Key="RadioButtonCheckGlyphFillPressed" ResourceKey="OnAccentBrush" />
+
+            <!-- Native chrome (dialogs, default buttons, text boxes, info bars) follows the
+                 active preset through the same shared brushes, so no stock blue/grey remains. -->
+            <StaticResource x:Key="ContentDialogBackground" ResourceKey="CardBrush" />
+            <StaticResource x:Key="ContentDialogBorderBrush" ResourceKey="BorderBrush" />
+            <StaticResource x:Key="ContentDialogForeground" ResourceKey="TextBrush" />
+            <StaticResource x:Key="AccentButtonBackground" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="AccentButtonBackgroundPointerOver" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="AccentButtonBackgroundPressed" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="AccentButtonBorderBrush" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="AccentButtonBorderBrushPointerOver" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="AccentButtonBorderBrushPressed" ResourceKey="AccentBrush" />
+            <StaticResource x:Key="AccentButtonForeground" ResourceKey="OnAccentBrush" />
+            <StaticResource x:Key="AccentButtonForegroundPointerOver" ResourceKey="OnAccentBrush" />
+            <StaticResource x:Key="AccentButtonForegroundPressed" ResourceKey="OnAccentBrush" />
+            <StaticResource x:Key="ButtonBackground" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SelectionBrush" />
+            <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SelectionBrush" />
+            <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="ButtonBorderBrush" ResourceKey="BorderBrush" />
+            <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="BorderHoverBrush" />
+            <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="BorderHoverBrush" />
+            <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="BorderBrush" />
+            <StaticResource x:Key="ButtonForeground" ResourceKey="TextBrush" />
+            <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="TextBrush" />
+            <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="TextBrush" />
+            <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="SubTextBrush" />
+            <StaticResource x:Key="TextControlBackground" ResourceKey="SidebarBrush" />
+            <StaticResource x:Key="TextControlBackgroundPointerOver" ResourceKey="SidebarBrush" />
+            <StaticResource x:Key="TextControlBackgroundDisabled" ResourceKey="SidebarBrush" />
+            <StaticResource x:Key="TextControlBorderBrush" ResourceKey="BorderBrush" />
+            <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="BorderHoverBrush" />
+            <StaticResource x:Key="TextControlBorderBrushDisabled" ResourceKey="BorderBrush" />
+            <StaticResource x:Key="TextControlForeground" ResourceKey="TextBrush" />
+            <StaticResource x:Key="TextControlForegroundPointerOver" ResourceKey="TextBrush" />
+            <StaticResource x:Key="TextControlForegroundDisabled" ResourceKey="SubTextBrush" />
+            <StaticResource x:Key="TextControlPlaceholderForeground" ResourceKey="SubTextBrush" />
+            <StaticResource x:Key="TextControlPlaceholderForegroundPointerOver" ResourceKey="SubTextBrush" />
+            <StaticResource x:Key="TextControlPlaceholderForegroundFocused" ResourceKey="SubTextBrush" />
+            <StaticResource x:Key="InfoBarBorderBrush" ResourceKey="BorderBrush" />
+            <StaticResource x:Key="InfoBarErrorBackgroundBrush" ResourceKey="CardBrush" />
+            <StaticResource x:Key="InfoBarWarningBackgroundBrush" ResourceKey="CardBrush" />
+            <StaticResource x:Key="InfoBarSuccessBackgroundBrush" ResourceKey="CardBrush" />
+            <StaticResource x:Key="InfoBarInformationalBackgroundBrush" ResourceKey="CardBrush" />
+            <!-- ===== 右键菜单与浮出层表面跟随主题 =====
+                 MenuFlyout / 内容型 Flyout 的表面、边框、圆角与悬停态全部
+                 走共享刷（选中态已由 ThemeService 派生为强调色调）。 -->
+            <StaticResource x:Key="MenuFlyoutPresenterBackground" ResourceKey="CardBrush" />
+            <StaticResource x:Key="MenuFlyoutPresenterBorderBrush" ResourceKey="BorderBrush" />
+            <Thickness x:Key="MenuFlyoutPresenterBorderThemeThickness">1</Thickness>
+            <CornerRadius x:Key="MenuFlyoutPresenterCornerRadius">10</CornerRadius>
+            <StaticResource x:Key="MenuFlyoutSeparatorBackground" ResourceKey="BorderBrush" />
+            <StaticResource x:Key="MenuFlyoutItemBackground" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="MenuFlyoutItemBackgroundPointerOver" ResourceKey="SelectionBrush" />
+            <StaticResource x:Key="MenuFlyoutItemBackgroundPressed" ResourceKey="SelectionBrush" />
+            <StaticResource x:Key="MenuFlyoutItemBackgroundDisabled" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="TextBrush" />
+            <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="TextBrush" />
+            <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="TextBrush" />
+            <StaticResource x:Key="MenuFlyoutItemForegroundDisabled" ResourceKey="SubTextBrush" />
+            <StaticResource x:Key="MenuFlyoutSubItemBackground" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="MenuFlyoutSubItemBackgroundPointerOver" ResourceKey="SelectionBrush" />
+            <StaticResource x:Key="MenuFlyoutSubItemBackgroundPressed" ResourceKey="SelectionBrush" />
+            <StaticResource x:Key="MenuFlyoutSubItemForeground" ResourceKey="TextBrush" />
+            <StaticResource x:Key="MenuFlyoutSubItemForegroundPointerOver" ResourceKey="TextBrush" />
+            <StaticResource x:Key="MenuFlyoutSubItemForegroundPressed" ResourceKey="TextBrush" />
+            <StaticResource x:Key="FlyoutPresenterBackground" ResourceKey="CardBrush" />
+            <StaticResource x:Key="FlyoutPresenterBorderBrush" ResourceKey="BorderBrush" />
+            <StaticResource x:Key="ToolTipBackground" ResourceKey="CardBrush" />
+            <StaticResource x:Key="ToolTipBorderBrush" ResourceKey="BorderBrush" />
+            <StaticResource x:Key="ToolTipForeground" ResourceKey="TextBrush" />
+            
+                        <!-- 播放器桥接（普通区兜底；主题字典注入见 App.xaml.cs，解决 Dark 元素主题绕过问题） -->
+            <StaticResource x:Key="MediaTransportControlsPanelBackground" ResourceKey="PlayerPanelBrush" />
+            <StaticResource x:Key="MediaTransportControlsBorderBrush" ResourceKey="PlayerPanelBorderBrush" />
+            <StaticResource x:Key="MediaTransportControlsFillMediaText" ResourceKey="PlayerTextBrush" />
+            <StaticResource x:Key="MediaTransportControlsFillTimeElapsedText" ResourceKey="PlayerTextDimBrush" />
+            <StaticResource x:Key="MediaTransportControlsFlyoutBackground" ResourceKey="PlayerFlyoutBrush" />
+            <StaticResource x:Key="MediaTransportControlsThumbBorderBackground" ResourceKey="PlayerFlyoutBrush" />
+            <StaticResource x:Key="AppBarButtonForeground" ResourceKey="PlayerTextBrush" />
+            <StaticResource x:Key="AppBarButtonForegroundPointerOver" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="AppBarButtonForegroundPressed" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="AppBarButtonForegroundDisabled" ResourceKey="PlayerTextDimBrush" />
+            <StaticResource x:Key="AppBarButtonBackgroundPointerOver" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="AppBarButtonBackgroundPressed" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonForeground" ResourceKey="PlayerTextBrush" />
+            <StaticResource x:Key="AppBarToggleButtonForegroundPointerOver" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonForegroundPressed" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonForegroundChecked" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonForegroundCheckedPointerOver" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonForegroundCheckedPressed" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonBackgroundPointerOver" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonBackgroundPressed" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonBackgroundChecked" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonBackgroundCheckedPointerOver" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="AppBarToggleButtonBackgroundCheckedPressed" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="CommandBarBackground" ResourceKey="TransparentBrush" />
+            <StaticResource x:Key="CommandBarForeground" ResourceKey="PlayerTextBrush" />
+            <StaticResource x:Key="SliderTrackValueFill" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="SliderTrackValueFillPointerOver" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="SliderTrackValueFillPressed" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="SliderTrackFill" ResourceKey="PlayerTrackBrush" />
+            <StaticResource x:Key="SliderTrackFillPointerOver" ResourceKey="PlayerTrackBrush" />
+            <StaticResource x:Key="SliderTrackFillPressed" ResourceKey="PlayerTrackBrush" />
+            <StaticResource x:Key="SliderThumbBackground" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="SliderThumbBackgroundPointerOver" ResourceKey="PlayerAccentBrush" />
+            <StaticResource x:Key="SliderThumbBackgroundPressed" ResourceKey="PlayerAccentBrush" />
+<!-- ===== CornerRadius ===== -->
+            <CornerRadius x:Key="CardCornerRadius">12</CornerRadius>
+            <CornerRadius x:Key="ChipCornerRadius">8</CornerRadius>
+            <CornerRadius x:Key="ButtonCornerRadius">8</CornerRadius>
+
+            <!-- ===== Font Styles ===== -->
+            <Style x:Key="DisplayFont" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI Variable Display" />
+            </Style>
+            <Style x:Key="BodyFont" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+            </Style>
+
+            <!-- ===== Title Styles ===== -->
+            <Style x:Key="AppTitleStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI Variable Display" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            </Style>
+            <Style x:Key="AppSubTitleStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+            </Style>
+            <Style x:Key="ContentTitleStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI Variable Display" />
+                <Setter Property="FontSize" Value="28" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            </Style>
+            <Style x:Key="ContentSubTitleStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+            </Style>
+            <Style x:Key="SidebarLabelStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+            </Style>
+            <Style x:Key="CategoryNameStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            </Style>
+            <Style x:Key="CountStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+            </Style>
+            <Style x:Key="CardTextStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="LineHeight" Value="22" />
+                <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+            </Style>
+            <Style x:Key="CardMetaStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+            </Style>
+
+            <!-- ===== Card Style ===== -->
+            <Style x:Key="InspirationCard" TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource CardBrush}" />
+                <Setter Property="CornerRadius" Value="{StaticResource CardCornerRadius}" />
+                <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="16" />
+            </Style>
+
+            <!-- ===== Chip (ToggleButton) Style ===== -->
+            <Style x:Key="FilterChipStyle" TargetType="ToggleButton">
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="{StaticResource ChipCornerRadius}" />
+                <Setter Property="Padding" Value="12,6" />
+                <Setter Property="MinHeight" Value="32" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border
+                                x:Name="RootBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Padding="{TemplateBinding Padding}">
+                                <ContentPresenter
+                                    x:Name="ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="Center"
+                                    TextWrapping="NoWrap" Foreground="{TemplateBinding Foreground}" />
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="PointerOver"><VisualState.Setters><Setter Target="RootBorder.Background" Value="{StaticResource CardBrush}" /><Setter Target="ContentPresenter.Foreground" Value="{StaticResource TextBrush}" /></VisualState.Setters></VisualState>
+                                        <VisualState x:Name="Pressed"><VisualState.Setters><Setter Target="RootBorder.Background" Value="{StaticResource SelectionBrush}" /></VisualState.Setters></VisualState><VisualState x:Name="Disabled"><VisualState.Setters><Setter Target="RootBorder.Opacity" Value="0.45" /></VisualState.Setters></VisualState>
+                                        <VisualState x:Name="Checked">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootBorder.Background" Value="{StaticResource SelectionBrush}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{StaticResource AccentBrush}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="CheckedPointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootBorder.Background" Value="{StaticResource SelectionBrush}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{StaticResource AccentBrush}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="CheckedPressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootBorder.Background" Value="{StaticResource SelectionBrush}" />
+                                                <Setter Target="ContentPresenter.Foreground" Value="{StaticResource AccentBrush}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- ===== Accent Button Style ===== -->
+            <Style x:Key="AccentButtonStyle" TargetType="Button">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="{StaticResource OnAccentBrush}" />
+                <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="CornerRadius" Value="{StaticResource ButtonCornerRadius}" />
+                <Setter Property="Padding" Value="18,10" />
+            </Style>
+
+            <!-- ===== Round Tool Button Style ===== -->
+            <Style x:Key="ToolButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Width" Value="40" />
+                <Setter Property="Height" Value="40" />
+                <Setter Property="CornerRadius" Value="8" /><Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+            </Style>
+
+            <!-- ===== Sidebar Button Style ===== -->
+            <Style x:Key="SidebarTextStyle" TargetType="Button">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="Padding" Value="12,10" />
+                <Setter Property="MinHeight" Value="36" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

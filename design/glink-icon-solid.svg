@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <rect width="512" height="512" fill="none"/>
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="#151413"/>
+  <g fill="#E8956B">
+    <!-- 纯色连续圆角路径构建的现代几何 G -->
+    <!-- 外圈圆角，横梁与内部星芒构成完美的正负空间平衡 -->
+    <path d="M 358 174 A 132 132 0 1 0 388 256 L 316 256" 
+          fill="none" 
+          stroke="#E8956B" 
+          stroke-width="48" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+    
+    <!-- 精致的八方微光核心: 4个主芒 + 4个次芒微倒角，沉淀感更加强烈 -->
+    <path d="M 244 204 
+             C 244 234 228 256 192 256 
+             C 228 256 244 278 244 308 
+             C 244 278 260 256 296 256 
+             C 260 256 244 234 244 204 Z"/>
+  </g>
+</svg>

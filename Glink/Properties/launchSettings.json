@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Glink (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Glink (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

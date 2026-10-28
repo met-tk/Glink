@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <rect width="512" height="512" fill="none"/>
+  <!-- 容器背景: 暮光暖杏橙 #E8956B，带平滑连续大圆角 112px -->
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="#E8956B"/>
+  
+  <!-- 纯色主体: 深炭灰 #151413 -->
+  <g fill="#151413">
+    <path d="M 358 174 A 132 132 0 1 0 388 256 L 316 256" 
+          fill="none" 
+          stroke="#151413" 
+          stroke-width="44" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+    
+    <path d="M 244 212 
+             C 244 238 230 256 200 256 
+             C 230 256 244 274 244 300 
+             C 244 274 258 256 288 256 
+             C 258 256 244 238 244 212 Z"/>
+  </g>
+</svg>

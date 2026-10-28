@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Glink 纯色矢量符号 (无底板，支持 currentColor 继承或单色设定) -->
+  <g fill="#000000">
+    <path d="M 358 174 A 132 132 0 1 0 388 256 L 316 256" 
+          fill="none" 
+          stroke="#000000" 
+          stroke-width="46" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+    
+    <path d="M 244 206 
+             C 244 236 228 256 196 256 
+             C 228 256 244 276 244 306 
+             C 244 276 260 256 292 256 
+             C 260 256 244 236 244 206 Z"/>
+  </g>
+</svg>
